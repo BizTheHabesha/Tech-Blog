@@ -116,17 +116,7 @@ class ClogHttp extends Clog {
 	 * @param {Boolean} _usePathByDeafult Should clog use the path option by default
 	 * @param {{Number:{String:String}}} _statusColorOptions Colors for a specifc status classes. Can accept options only for the classes needed.
 	 */
-	constructor(
-		_path = "Clog",
-		_usePathByDeafult = false,
-		_statusColorOptions = {
-			100: { fg: "black", bg: "BgWhite", fgA: "white", bgA: "Unset" },
-			200: { fg: "black", bg: "BgGreen", fgA: "green", bgA: "Unset" },
-			300: { fg: "black", bg: "BgYellow", fgA: "yellow", bgA: "Unset" },
-			400: { fg: "black", bg: "BgYellow", fgA: "yellow", bgA: "Unset" },
-			500: { fg: "white", bg: "BgRed", fgA: "red", bgA: "Unset" },
-		}
-	) {
+	constructor(_path = "Clog", _usePathByDeafult = false) {
 		super(_path, _usePathByDeafult);
 	}
 
@@ -245,14 +235,14 @@ class ClogHttp extends Clog {
 				$text = "HTTP Version not supported";
 				break;
 			default:
-				$text = `Unknown status`;
+				$text = "Unknown status";
 				break;
 		}
 		return $text;
 	}
 	httpStatus(status, _message) {
 		let message = _message ? `: ${_message}` : "";
-		let sM = statusMessage(status);
+		let sM = this.statusMessage(status);
 		let bg, fg, fgA;
 		switch (String(status).charAt(0)) {
 			case "1":
@@ -282,13 +272,13 @@ class ClogHttp extends Clog {
 				break;
 			default:
 				console.log(
-					`${this.Colors["BgYellow"]}${this.Colors["black"]} ? ${status} ${this.path} ? ${this.Colors["Reset"]}${message}`
+					`${this.Colors["BgYellow"]}${this.Colors["black"]} ? ${status} ${this.path} ? ${this.Colors["Reset"]}${sM}: ${message}`
 				);
 				break;
 		}
 		if (bg)
 			console.log(
-				`${this.Colors[bg]}${this.Colors[fg]} ${status} ${this.Colors["Underscore"]}${this.path} ${this.Colors["Reset"]}${this.Colors[fgA]}${message}${this.Colors["Reset"]}`
+				`${this.Colors[bg]}${this.Colors[fg]} ${status} ${this.Colors["Underscore"]}${this.path} ${this.Colors["Reset"]}${this.Colors[fgA]}${sM}: ${message}${this.Colors["Reset"]}`
 			);
 	}
 }
@@ -309,9 +299,16 @@ class CustomClog extends Clog {
 		super(_path, _usePathByDeafult);
 	}
 	createCustom(profileName, sections) {
-		return this["createCustom"];
+		this[profileName] = function (message, _usePath = false) {
+			let path = _usePath ? this.path : "";
+			let defsecs = Object.keys(sections);
+			console.log(`${path}: SECTIONS: ${defsecs}: MESSAGE: ${message}`);
+		};
 	}
-	custom(profile) {}
+	custom(profile, message, _usePath = false) {
+		let cb = this[profile];
+		return cb(message, _usePath);
+	}
 }
 
 module.exports = { Clog, ClogHttp, Arbitrator, CustomClog };
