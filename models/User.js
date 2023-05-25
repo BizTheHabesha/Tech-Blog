@@ -57,6 +57,13 @@ User.init(
 				);
 				return newUserData;
 			},
+			beforeUpdate: async (updatedUserData) => {
+				updatedUserData.password = await bcrypt.hash(
+					updatedUserData.password,
+					12
+				);
+				return updatedUserData;
+			},
 		},
 		// sequelize for the model
 		sequelize,
