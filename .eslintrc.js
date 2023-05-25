@@ -10,7 +10,7 @@ module.exports = {
 		ecmaVersion: "latest",
 	},
 	rules: {
-		indent: ["error", "tab"],
+		indent: ["error", "tab", { SwitchCase: 1 }],
 		"linebreak-style": ["error", "windows"],
 		quotes: ["error", "double"],
 		semi: ["error", "always"],

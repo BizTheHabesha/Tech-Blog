@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const bcrypt = require("bcrypt");
-const sequelize = require("../config");
+const sequelize = require("../config/connection");
 
 class User extends Model {
 	/**
@@ -40,10 +40,6 @@ User.init(
 		password: {
 			type: DataTypes.STRING,
 			allowNull: false,
-			validate: {
-				len: [8],
-				is: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i,
-			},
 		},
 	},
 	{
@@ -56,6 +52,13 @@ User.init(
 					12
 				);
 				return newUserData;
+			},
+			beforeUpdate: async (updatedUserData) => {
+				updatedUserData.password = await bcrypt.hash(
+					updatedUserData.password,
+					12
+				);
+				return updatedUserData;
 			},
 		},
 		// sequelize for the model
