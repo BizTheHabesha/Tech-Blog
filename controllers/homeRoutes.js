@@ -4,7 +4,7 @@ const withAuth = require("../utils/authq");
 const { ClogHttp } = require("../utils/clog");
 
 router.get("/", async (req, res) => {
-	const clog = new ClogHttp("/");
+	const clog = new ClogHttp(" GET /");
 	try {
 		// Get all projects and JOIN with user data
 		const postData = await Post.findAll({
@@ -21,11 +21,13 @@ router.get("/", async (req, res) => {
 
 		// Pass serialized data and session flag into template
 		if (posts) {
-			clog.httpStatus(200);
-			res.status(200).json(posts);
+			clog.httpStatus(200, "RENDER");
+			// res.status(200).json(posts);
+			res.render("homepage");
 		} else {
 			clog.httpStatus(404);
-			res.status(404).json({ status: 404, message: "No users in db" });
+			// res.status(404).json({ status: 404, message: "No users in db" });
+			res.render("homepage");
 		}
 	} catch (err) {
 		res.status(500).json(err);
@@ -33,7 +35,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/dashboard", withAuth, async (req, res) => {
-	const clog = new ClogHttp("/dashboard");
+	const clog = new ClogHttp("GET /dashboard");
 	try {
 		if (!req.session.logged_in) {
 			res.redirect("/login");
@@ -59,7 +61,7 @@ router.get("/dashboard", withAuth, async (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-	const clog = new ClogHttp("/login", true);
+	const clog = new ClogHttp("GET /login", true);
 	// If the user is already logged in, redirect the request to another route
 	if (req.session.logged_in) {
 		res.redirect("/dashboard");
@@ -74,7 +76,7 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/post/:id", async (req, res) => {
-	const clog = new ClogHttp(`/post/${req.params["id"]}`);
+	const clog = new ClogHttp(`GET /post/${req.params["id"]}`);
 	try {
 		const postData = await Post.findByPk(req.params.id, {
 			include: [
