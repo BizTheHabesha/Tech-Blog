@@ -75,6 +75,17 @@ router.get("/login", (req, res) => {
 	// res.status(400).end();
 });
 
+router.get("/signup", (req, res) => {
+	const clog = new ClogHttp("GET /signup", true);
+	if (req.session.logged_in) {
+		clog.statusMessage(100, "logged in, redirect to /dashboard");
+		res.redirect("/dashboard");
+		return;
+	}
+	clog.httpStatus(200);
+	res.status(200).render("signup");
+});
+
 router.get("/post/:id", async (req, res) => {
 	const clog = new ClogHttp(`GET /post/${req.params["id"]}`);
 	try {
