@@ -51,7 +51,10 @@ router.post("/login", async (req, res) => {
 				200,
 				`User ${req.session.user_id} is now logged in...`
 			);
-			res.json({ user: userData, message: "You are now logged in!" });
+			res.status(200).json({
+				user: userData,
+				message: "You are now logged in!",
+			});
 		});
 	} catch (err) {
 		clog.httpStatus(400, err.message);
