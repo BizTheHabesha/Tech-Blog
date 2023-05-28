@@ -16,6 +16,16 @@ const seedData = [
 		body: "Hey everyone, just found this. What going on!",
 		author_id: 3,
 	},
+	{
+		title: "What are you guys up to?",
+		body: "Just curious what everyone's up to right now?",
+		author_id: 1,
+	},
+	{
+		title: "Lot of gamers!",
+		body: "Looks like you're all gamers! How about we dm on dis and get some games going?",
+		author_id: 1,
+	},
 ];
 
 const seedPosts = async () => await Post.bulkCreate(seedData);
