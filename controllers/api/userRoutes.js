@@ -29,7 +29,7 @@ router.post("/login", async (req, res) => {
 		if (!userData) {
 			clog.httpStatus(400, "Incorrect email or password");
 			res.status(400).json({
-				message: "Incorrect email or password, please try again",
+				message: "This email does not have an account.",
 			});
 			return;
 		}
@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
 		if (!validPassword) {
 			clog.httpStatus(400, "Incorrect email or password");
 			res.status(400).json({
-				message: "Incorrect email or password, please try again",
+				message: "Incorrect email or password, please try again.",
 			});
 			return;
 		}

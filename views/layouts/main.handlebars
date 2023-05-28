@@ -77,14 +77,13 @@
 					{{#if logged_in}}
 						<ul class="d-flex navbar-nav">
 							<li class="nav-item">
-								<a
-									id="logout-nav-button"
-									class="nav-link"
-									href="/"
-								>Logout</a>
+								<button
+									class="nav-link btn btn-sm btn-info logout-nav-button"
+								>Logout</button>
 							</li>
 						</ul>
-						<script src="../../public/js/logout.js"></script>
+						{{! <script src="../../public/js/logout.js"></script> }}
+						<script src="/js/logout.js"></script>
 					{{else}}
 						<ul class="d-flex navbar-nav">
 							<li class="nav-item">

@@ -1,6 +1,7 @@
+console.log(`lgo_h_init: Initialized`);
 const logoutHandler = async (event) => {
 	event.preventDefault();
-
+	console.log(`lgo_h_init: Recieved`);
 	const response = await fetch("/api/users/logout", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -14,5 +15,5 @@ const logoutHandler = async (event) => {
 };
 
 document
-	.querySelector("#logout-nav-button")
-	.addEventListener("click", loginFormHandler);
+	.querySelector(".logout-nav-button")
+	.addEventListener("click", logoutHandler);
