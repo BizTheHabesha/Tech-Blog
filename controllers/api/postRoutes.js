@@ -44,22 +44,39 @@ router.get("/:post_id", async (req, res) => {
 	}
 });
 
+router.get("/", async (req, res) => {
+	const clog = new ClogHttp("GET /api/post");
+	try {
+		const findRes = await Post.findAll();
+		res.json(findRes);
+	} catch (err) {
+		clog.critical(err, err.message);
+		res.sendStatus(500);
+	}
+});
+
 router.post("/", async (req, res) => {
 	const clog = new ClogHttp("POST /api/post", true);
 	try {
-		if (!req.body["post_title"] || !req.body["post_body"]) {
+		if (!req.body["title"] || !req.body["body"]) {
+			clog.httpStatus(406, "Post title or post body wasn't defined!");
 			res.status(406).json({
 				status: 406,
-				message: "Post creation not attmpted (not acceptable). ",
+				message:
+					"Not acceptable. Post title and post body must be defined",
 			});
+			return;
 		}
-		const createRes = await Post.create();
+		const createRes = await Post.create({
+			...req.body,
+			author_id: req.session.user_id,
+		});
 		if (createRes) {
 			clog.httpStatus(200, JSON.stringify(createRes));
 			res.status(200).json(createRes);
 		} else {
 			clog.httpStatus(
-				1503,
+				9503,
 				"Post create failed, sequelize service unavailable?"
 			);
 			res.status(503).json({

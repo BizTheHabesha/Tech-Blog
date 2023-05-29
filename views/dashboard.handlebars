@@ -1,35 +1,64 @@
-<div class="row">
-	<div class="col-md-6">
-		<div class="text-center">
-			<button type="button" class="btn btn-primary">Post something new...</button>
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<div class="text-center">
+				<button type="button" class="btn btn-primary">
+					<a href="/newpost/" class="text-decoration-none link-light">
+						Post something new...
+					</a>
+				</button>
+			</div>
 		</div>
-		{{#if posts.length}}
-			<div class="col-md-6 project-list">
-				<h3>My Posts:</h3>
-
-				{{#each posts as |post|}}
-					<div class="row mb-2">
-						<div class="col-md-8">
+	</div>
+	{{#if error}}
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-danger" role="alert">
+					{{error}}
+				</div>
+			</div>
+		</div>
+	{{/if}}
+	<div class="row">
+		<div class="col">
+			<div class="container-fluid">
+				<h3> My Posts: </h3>
+			</div>
+		</div>
+	</div>
+	{{#if posts.length}}
+		{{#each posts as |post|}}
+			<div class="row pb-2">
+				<div class="col">
+					<div class="card">
+						<div class="card-body">
 							<h4><a
 									href="/post/{{post.id}}"
 								>{{post.title}}</a></h4>
+							<p>
+								{{post.body}}
+							</p>
 						</div>
-						<div class="col-md-4">
+						<div class="card-footer">
 							<button
-								class="btn btn-sm btn-danger delete-post-btn"
+								type="button"
+								class="btn btn-danger"
 								data-id="{{post.id}}"
-							>DELETE</button>
+							>
+								Delete
+							</button>
 						</div>
 					</div>
-				{{/each}}
+				</div>
 			</div>
-			<script src="../public/js/deletepost.js"></script>
-		{{else}}
-			<div class="col-md-6 project-list">
-				<h3>My Posts:</h3>
-				<p>No posts yet.</p>
+		{{/each}}
+	{{else}}
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-info" role="alert">
+					No posts yet.
+				</div>
 			</div>
-		{{/if}}
-
-	</div>
+		</div>
+	{{/if}}
 </div>
