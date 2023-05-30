@@ -13,10 +13,9 @@ const newPostHandler = async (e) => {
 	}
 	const res = await fetch("/api/posts", {
 		method: "POST",
-		body: { body, title },
+		body: JSON.stringify({ body, title }),
+		headers: { "Content-Type": "application/json" },
 	});
-	console.log("__RES__");
-	console.log(res);
 	if (res.ok) {
 		document.location.replace("/dashboard");
 	} else {
