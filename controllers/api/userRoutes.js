@@ -3,7 +3,7 @@ const { User } = require("../../models");
 const { ClogHttp } = require("../../utils/clog");
 
 router.post("/", async (req, res) => {
-	const clog = new ClogHttp("POST /api/users/");
+	const clog = new ClogHttp("POST /api/users/", true);
 	try {
 		const userData = await User.create(req.body);
 
@@ -76,7 +76,7 @@ router.post("/logout", (req, res) => {
 });
 
 router.delete("/", (req, res) => {
-	const clog = new ClogHttp("DELETE /api/users/");
+	const clog = new ClogHttp("DELETE /api/users/", true);
 	if (req.session.logged_in) {
 		clog.httpStatus(501, "DELETE NOT IMPLEMENTED FOR USERS");
 		res.sendStatus(501);
