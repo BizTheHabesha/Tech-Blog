@@ -1,0 +1,44 @@
+<div class="container">
+	{{#if error}}
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-danger" role="alert">
+					{{error}}
+				</div>
+			</div>
+		</div>
+	{{/if}}
+	{{#if posts.length}}
+		{{#each posts as |post|}}
+			<div class="row pb-2">
+				<div class="col">
+					<div class="card">
+						<div class="card-body">
+							<h4><a
+									href="/post/{{post.id}}"
+								>{{post.title}}</a></h4>
+							<p>
+								{{post.body}}
+							</p>
+						</div>
+						<div class="card-footer">
+							<p>Posted by
+								{{#if
+									post.author_id
+								}}{{post.user.name}}{{else}}A deleted user.{{/if}}</p>
+							<p>{{post.createdAt}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		{{/each}}
+	{{else}}
+		<div class="row">
+			<div class="col">
+				<div class="alert alert-info" role="alert">
+					No posts yet.
+				</div>
+			</div>
+		</div>
+	{{/if}}
+</div>
