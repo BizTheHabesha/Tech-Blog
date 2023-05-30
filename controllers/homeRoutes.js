@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, Post } = require("../models");
+const { User, Post, Comment } = require("../models");
 const withAuth = require("../utils/authq");
 const { ClogHttp } = require("../utils/clog");
 
@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
 			});
 		} else {
 			clog.httpStatus(404);
-			// res.status(404).json({ status: 404, message: "No users in db" });
+			clog.info("rendering...", true);
 			res.render("homepage", {
 				logged_in: !!req.session.logged_in,
 			});
@@ -56,6 +56,7 @@ router.get("/dashboard", withAuth, async (req, res) => {
 			where: { author_id: req.session.user_id },
 		});
 		const posts = postData.map((post) => post.get({ plain: true }));
+		clog.info("rendering...", true);
 
 		res.render("dashboard", {
 			logged_in: !!req.session.logged_in,
@@ -63,6 +64,8 @@ router.get("/dashboard", withAuth, async (req, res) => {
 		});
 	} catch (err) {
 		clog.httpStatus(500, err.message);
+		clog.info("rendering...", true);
+
 		res.render("dashboard", {
 			logged_in: !!req.session.logged_in,
 			error: clog.statusMessage(500),
@@ -80,7 +83,11 @@ router.get("/newpost", withAuth, async (req, res) => {
 		}
 
 		clog.httpStatus(200);
-		res.render("newpost");
+		clog.info("rendering...", true);
+
+		res.render("newpost", {
+			logged_in: !!req.session.logged_in,
+		});
 	} catch (err) {
 		clog.httpStatus(500, err.message);
 		res.status(500).json(err);
@@ -97,6 +104,7 @@ router.get("/login", (req, res) => {
 	}
 
 	clog.httpStatus(200);
+	clog.info("rendering...", true);
 	res.status(200).render("login", { logged_in: !!req.session.logged_in });
 });
 
@@ -108,6 +116,8 @@ router.get("/signup", (req, res) => {
 		return;
 	}
 	clog.httpStatus(200);
+	clog.info("rendering...", true);
+
 	res.status(200).render("signup", { logged_in: !!req.session.logged_in });
 });
 
@@ -120,21 +130,33 @@ router.get("/post/:id", async (req, res) => {
 					model: User,
 					attributes: ["name"],
 				},
+				{
+					model: Comment,
+					include: {
+						model: User,
+					},
+				},
 			],
 		});
-
+		if (!postData) {
+			clog.httpStatus(404, `ID ${req.params.id} could not be found!`);
+			res.render("post", {
+				error: "This post could not be found. Maybe it was deleted?",
+			});
+			return;
+		}
 		const post = postData.get({ plain: true });
-
+		clog.info("rendering...", true);
+		clog.httpStatus(200);
 		res.render("post", {
 			logged_in: !!req.session.logged_in,
 			...post,
 		});
-
-		clog.httpStatus(200);
-		res.status(200).json(post);
 	} catch (err) {
 		clog.httpStatus(500, err.message);
-		res.status(500).json(err);
+		res.render("post", {
+			error: clog.statusMessage(500),
+		});
 	}
 });
 
