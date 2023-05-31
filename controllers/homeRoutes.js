@@ -118,7 +118,9 @@ router.get("/signup", (req, res) => {
 	clog.httpStatus(200);
 	clog.info("rendering...", true);
 
-	res.status(200).render("signup", { logged_in: !!req.session.logged_in });
+	res.status(200).render("signup", {
+		logged_in: !!req.session.logged_in,
+	});
 });
 
 router.get("/post/:id", async (req, res) => {
@@ -128,12 +130,14 @@ router.get("/post/:id", async (req, res) => {
 			include: [
 				{
 					model: User,
-					attributes: ["name"],
+					attributes: ["name", "id"],
 				},
 				{
 					model: Comment,
+					order: ["createdAt", "ASC"],
 					include: {
 						model: User,
+						attributes: ["name", "id"],
 					},
 				},
 			],
@@ -146,9 +150,21 @@ router.get("/post/:id", async (req, res) => {
 			return;
 		}
 		const post = postData.get({ plain: true });
+		post.comments = post.comments.map((comment) => {
+			comment.logged_in_user_id = req.session.user_id === comment.user.id;
+			return comment;
+		});
+		clog.warn(JSON.stringify(post.comments), false);
+		clog.error(JSON.stringify(req.session.user_id));
+		clog.critical(
+			`FINAL: ${req.session.user_id} == ${post.user.id}  => ${
+				req.session.user_id == post.user.id
+			}`
+		);
 		clog.info("rendering...", true);
 		clog.httpStatus(200);
 		res.render("post", {
+			logged_in_user_id: req.session.user_id == post.user.id,
 			logged_in: !!req.session.logged_in,
 			...post,
 		});
