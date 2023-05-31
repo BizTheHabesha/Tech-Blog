@@ -278,8 +278,13 @@ class ClogHttp extends Clog {
 		}
 		if (bg)
 			console.log(
-				`${this.Colors[bg]}${this.Colors[fg]} ${status} ${this.Colors["Underscore"]}${this.path} ${this.Colors["Reset"]}${this.Colors[fgA]}${sM}: ${message}${this.Colors["Reset"]}`
+				`${this.Colors[bg]}${this.Colors[fg]} ${status} ${this.Colors["Underscore"]}${this.path}${this.Colors["Reset"]} ${this.Colors[fgA]}${sM}: ${message}${this.Colors["Reset"]}`
 			);
+	}
+	end() {
+		console.log(
+			`${this.Colors["BgGreen"]}${this.Colors["Blink"]} ! ${this.Colors["Reset"]} endof ${this.path} ${this.Colors["BgGreen"]}${this.Colors["Blink"]} ! ${this.Colors["Reset"]}`
+		);
 	}
 }
 
