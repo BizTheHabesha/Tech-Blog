@@ -8,9 +8,9 @@ Comment.init(
 		// unique, auto-incremented id for every comment
 		id: {
 			type: DataTypes.INTEGER,
+			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true,
-			allowNull: false,
 		},
 		// the body of every comment
 		body: {

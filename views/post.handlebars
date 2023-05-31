@@ -2,13 +2,66 @@
 	{{#if error}}
 		<div class="alert alert-danger">{{error}}</div>
 	{{else}}
-		<article class="blog-post">
+		<article class="blog-post" id="blogPost" data-id="{{id}}">
 			<h2 class="blog-post-title">{{title}}</h2>
 			<p class="blog-post-meta">{{date}}</p>
 			<p>{{{body}}}</p>
 			<hr />
-			<a href="/delete/{{id}}" class="btn btn-danger">Delete</a>
+			<p>Posted by {{user.name}} on {{createdAt}}</p>
+			<a
+				data-id="{{id}}"
+				id="new-comment-toggle"
+				class="btn btn-success"
+			>Add a comment</a>
+			{{#if logged_in_user_id}}
+				<a
+					data-id="{{id}}"
+					class="btn btn-danger delete-post-btn"
+				>Delete</a>
+			{{/if}}
 		</article>
+		<hr />
 
+		<div id="comment-form-toggleable" style="display: none">
+			<form>
+				<div class="form-group pb-2">
+					<label for="comment-body-input">Comment</label>
+					<textarea
+						class="form-control"
+						id="comment-body-input"
+						rows="3"
+						placeholder="A fun body..."
+					></textarea>
+				</div>
+				<button
+					type="submit"
+					class="btn btn-primary new-comment-btn"
+				>Comment</button>
+			</form>
+			<hr />
+		</div>
+
+		{{#each comments as |comment|}}
+			<div class="card mb-2">
+				<div class="card-body">
+					<p>{{comment.body}}</p>
+					<p>Posted by
+						{{comment.user.name}}
+						on
+						{{comment.createdAt}}</p>
+				</div>
+				{{#if comment.logged_in_user_id}}
+					<div class="card-footer">
+						<a
+							data-id="{{comment.id}}"
+							class="btn btn-danger delete-comment-btn"
+						>Delete</a>
+					</div>
+				{{/if}}
+			</div>
+		{{/each}}
 	{{/if}}
 </div>
+<script src="/js/deletepost.js"></script>
+<script src="/js/deletecomment.js"></script>
+<script src="/js/newcomment.js"></script>

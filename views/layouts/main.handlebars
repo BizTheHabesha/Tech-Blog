@@ -9,17 +9,26 @@
 			integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
 			crossorigin="anonymous"
 		/>
+		<link rel="icon" href="assets/favicon.ico" />
+		<script
+			src="https://code.jquery.com/jquery-3.7.0.min.js"
+			integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+			crossorigin="anonymous"
+		></script>
 		<title>Tech Blog</title>
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg bg-body-secondary">
+		<nav class="navbar navbar-expand-lg bg-body-secondary mb-4">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="/">Tech Blog</a>
+				<a class="navbar-brand" href="/"><img
+						src="/assets/iconmed.ico"
+						alt=""
+					/></a>
 				<button
 					class="navbar-toggler"
 					type="button"
 					data-bs-toggle="collapse"
-					data-bs-target="#navbarSupportedContent"
+					data-bs-target="#navbarSupportedContent "
 					aria-controls="navbarSupportedContent"
 					aria-expanded="false"
 					aria-label="Toggle navigation"
@@ -89,7 +98,6 @@
 								>Logout</button>
 							</li>
 						</ul>
-						{{! <script src="../../public/js/logout.js"></script> }}
 						<script src="/js/logout.js"></script>
 					{{else}}
 						<ul class="d-flex navbar-nav">
