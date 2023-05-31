@@ -1,15 +1,5 @@
 <div class="container">
-	<div class="row">
-		<div class="col">
-			<div class="text-center">
-				<button type="button" class="btn btn-primary">
-					<a href="/newpost/" class="text-decoration-none link-light">
-						Post something new...
-					</a>
-				</button>
-			</div>
-		</div>
-	</div>
+	<h1>Recent Posts on <img src="/assets/iconmed.ico" alt="" /></h1>
 	{{#if error}}
 		<div class="row">
 			<div class="col">
@@ -19,13 +9,6 @@
 			</div>
 		</div>
 	{{/if}}
-	<div class="row">
-		<div class="col">
-			<div class="container-fluid">
-				<h3> My Posts: </h3>
-			</div>
-		</div>
-	</div>
 	{{#if posts.length}}
 		{{#each posts as |post|}}
 			<div class="row pb-2">
@@ -40,13 +23,11 @@
 							</p>
 						</div>
 						<div class="card-footer">
-							<button
-								type="button"
-								class="btn btn-danger delete-post-btn"
-								data-id="{{post.id}}"
-							>
-								Delete
-							</button>
+							<p>Posted by
+								{{#if
+									post.author_id
+								}}{{post.user.name}}{{else}}A deleted user.{{/if}}</p>
+							<p>{{post.createdAt}}</p>
 						</div>
 					</div>
 				</div>
@@ -62,4 +43,3 @@
 		</div>
 	{{/if}}
 </div>
-<script src="/js/deletepost.js"></script>
