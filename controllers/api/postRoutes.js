@@ -3,7 +3,10 @@ const { Post } = require("../../models");
 const { ClogHttp } = require("../../utils/clog");
 
 router.delete("/:post_id", async (req, res) => {
-	const clog = new ClogHttp(`POST /api/post/${req.params["post_id"]}`, true);
+	const clog = new ClogHttp(
+		`DELETE /api/post/${req.params["post_id"]}`,
+		true
+	);
 	try {
 		const destroyRes = await Post.destroy({
 			where: { id: req.params["post_id"] },
