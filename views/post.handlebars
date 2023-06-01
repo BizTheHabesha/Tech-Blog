@@ -11,9 +11,13 @@
 			<a
 				data-id="{{id}}"
 				id="new-comment-toggle"
-				class="btn btn-success"
+				class="btn btn-outline-success"
 			>Add a comment</a>
 			{{#if logged_in_user_id}}
+				<a
+					href="/update/{{id}}"
+					class="btn btn-success update-post-btn"
+				>Update</a>
 				<a
 					data-id="{{id}}"
 					class="btn btn-danger delete-post-btn"
