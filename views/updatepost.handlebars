@@ -1,0 +1,31 @@
+<div class="container">
+	<form>
+		<div class="form-group">
+			<label for="post-title-input">Title</label>
+			<input
+				type="text"
+				class="form-control"
+				id="post-title-input"
+				placeholder="A cool title..."
+				value="{{title}}"
+			/>
+		</div>
+		<div id="form-group mb-3">
+			<label for="post-body-input">Body</label>
+			<textarea
+				class="form-control"
+				id="post-body-input"
+				rows="3"
+				placeholder="A fun body..."
+			>{{body}}</textarea>
+		</div>
+		<button
+			data-id="{{id}}"
+			type="button"
+			class="btn btn-outline-secondary update-post-button"
+		>
+			Update
+		</button>
+	</form>
+	<script src="/js/updatepost.js"></script>
+</div>

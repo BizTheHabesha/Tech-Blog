@@ -123,6 +123,27 @@ router.get("/signup", (req, res) => {
 	});
 });
 
+router.get("/update/:post_id", withAuth, async (req, res) => {
+	const clog = new ClogHttp(`/update/${req.params["post_id"]}`);
+	try {
+		const findRes = await Post.findByPk(req.params["post_id"]);
+		if (findRes) {
+			clog.httpStatus(201, `ID ${req.params["post_id"]} found`);
+			const post = findRes.get({ plain: true });
+			res.render("updatepost", {
+				...post,
+				logged_in: !!req.session.logged_in,
+			});
+		} else {
+			clog.httpStatus(404, `ID ${req.params["post_id"]}`);
+			res.status(404).json({ error: `ID ${req.params["post_id"]}` });
+		}
+	} catch (err) {
+		clog.httpStatus(500, err.message);
+		res.status(500).json(err);
+	}
+});
+
 router.get("/post/:id", async (req, res) => {
 	const clog = new ClogHttp(`GET /post/${req.params["id"]}`, true);
 	try {
