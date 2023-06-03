@@ -3,12 +3,16 @@ A blog website built in Express. Uses Handlebars for view and Sequelize for mode
 ## Table of Contents
 - [Tech Blog](#tech-blog)
   - [Table of Contents](#table-of-contents)
+  - [Screenshots](#screenshots)
   - [Installation](#installation)
   - [Usage](#usage)
   - [Testing](#testing)
   - [Contributing](#contributing)
   - [Questions](#questions)
   - [License ](#license-)
+___
+## Screenshots
+![Screenshot](./public/assets/screenshot.png)
 ___
 ## Installation
 Clone the repository and run the following command from the root directory:  
